@@ -278,6 +278,23 @@ Pieges :
 - traceroute UDP (defaut Linux) affiche "* * *" pour le firewall (normal). traceroute -I
   (ICMP) fonctionne : c'est la demonstration de la precision de la regle.
 
+Tests de la config (depuis le client externe)
+```
+# depuis le client LAN
+ping 192.168.1.254          # interface LAN du firewall
+
+# depuis le serveur DMZ
+ping 172.16.0.254           # interface DMZ du firewall
+
+# depuis le client externe
+ping <IP_WAN>               # interface WAN du firewall
+
+# Ensuite le test du traceroute
+traceroute -I <IP_firewall>     # mode ICMP  -> fonctionne
+traceroute <IP_firewall>        # mode UDP (défaut) -> affiche "* * *"
+```
+Le traceroute classique sous Linux utilise par défaut des paquets UDP, pas ICMP. Ta règle n'autorise que l'echo-request ICMP, donc les sondes UDP du traceroute tombent dans la policy drop → tu vois * * * (pas de réponse) pour le firewall. C'est normal et correct : ça prouve que ta règle est précise et ne laisse passer que ce qui est demandé.
+Avec traceroute -I, tu forces le mode ICMP : cette fois les sondes correspondent à ta règle echo-request, et le firewall répond. Le contraste entre les deux est exactement la démonstration que le labo cherche à te faire observer - ta règle fait du chirurgical, pas du « tout l'ICMP ».
 
 # 8. LAN -> Firewall (SSH pour 2 machines + limite 3/min)
 
