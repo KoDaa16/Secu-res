@@ -199,6 +199,15 @@ Pieges :
 - La regle des adresses critiques doit etre placee AVANT les autorisations, sinon elle
   ne prime pas.
 
+Tests de la config (depuis le client LAN)
+```
+nslookup google.com 208.67.222.123           # résolution OK
+wget -qO- https://www.google.com | head        # HTTPS OK
+nslookup internetbadguys.com 208.67.222.123    # renvoie 146.112.61.x = bloqué par OpenDNS
+wget http://www.enseignement.be                 # "Connection refused" immédiat (reject)
+```
+
+
 
 # 5. LAN -> DMZ (ping + HTTP)
 
