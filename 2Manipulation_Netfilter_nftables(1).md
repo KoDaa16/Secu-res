@@ -335,13 +335,12 @@ Corrige en pointant vers un DNS qui répond réellement. Le plus simple, OpenDNS
 
 Ajouter dans la chaine input :
 
-    iifname $WAN tcp dport 22 ct state new \
-        log prefix "SSH-WAN: " reject with tcp reset
+    iifname $WAN tcp dport 22 ct state new log prefix "SSH-WAN: " reject with tcp reset
 
 Lire les logs (cote firewall) :
 
-    sudo journalctl -k --grep "SSH-WAN"
-    sudo journalctl -kf | grep "SSH-WAN"
+    sudo journalctl -k --grep "SSH-WAN"  # affiche tous les logs SSH-WAN passés 
+    sudo journalctl -kf | grep "SSH-WAN" # suit les logs en temps réel
 
 Pieges :
 - ct state new pour ne logger que les nouvelles connexions.
@@ -350,7 +349,12 @@ Pieges :
   tentative. Le flag TCP de ces paquets est SYN.
 - Reperer une meme tentative par son port source (SPT) identique sur plusieurs lignes.
 
-
+Bonus a ne pas faire a l'exam sauf si demandé
+Version 1 — avec drop (la consigne de base). Dans la chaîne input :
+```
+# Logger les nouvelles tentatives SSH venant du WAN, puis les jeter : ce n'est pas propre le drop
+iifname $WAN tcp dport 22 ct state new log prefix "SSH-WAN: " drop
+```
 # 10. Set blocked_IPs (plages privees interdites sur le WAN)
 
 Ajouter le set DANS la table inet filter (au meme niveau que les chaines) :
