@@ -306,6 +306,7 @@ Prerequis : openssh-server installe sur le firewall. Si output est en drop, ouvr
 temporairement la sortie pour faire apt, puis recharger :
 
     sudo nft insert rule inet filter output accept
+    sudo nft insert rule inet filter input accept
     sudo apt update && sudo apt install -y openssh-server
     sudo nft -f /etc/nftables.conf   # le flush ruleset enleve la regle temporaire
 
@@ -323,6 +324,12 @@ Pieges :
   sa propre IP passe par lo (capturee par `iif "lo" accept`), donc la limite n'est jamais
   evaluee.
 
+si le dl ne fonctionne pas : peut etre qu'il manque le pointage vers le DNS correct
+```
+/etc/resolv.conf # si ce n'est pas le bon DNS ca ne marche pas
+echo 'nameserver 208.67.222.123' | sudo tee /etc/resolv.conf 
+```
+Corrige en pointant vers un DNS qui répond réellement. Le plus simple, OpenDNS (déjà utilisé dans ton labo) ou un DNS public quelconque 
 
 # 9. WAN -> Firewall (logging des tentatives SSH puis fermeture)
 
