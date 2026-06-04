@@ -154,7 +154,7 @@ loopback autorisee, conntrack. La table nat est creee mais vide pour l'instant.
         }
     }
 
-Charger : `sudo nft -f /etc/nftables.conf`   Verifier : `sudo nft list ruleset`
+Charger : `sudo nft -f /etc/nftables.conf` (s'il n'y a pas d'erreur de syntaxe, la commande ne renvoie rien)  Verifier : `sudo nft list ruleset`
 
 Pieges :
 - policy drop UNIQUEMENT sur les 3 chaines de FILTRAGE (input, forward, output). NE PAS
