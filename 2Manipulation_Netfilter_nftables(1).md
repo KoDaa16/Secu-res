@@ -92,6 +92,10 @@ Firewall, /etc/network/interfaces :
     iface enp0s9 inet static
         address 172.16.0.254/16
 
+Firewall :
+```
+echo 'nameserver 208.67.222.123' | sudo tee /etc/resolv.conf
+```
 Serveur DMZ, /etc/network/interfaces :
 
     auto lo
