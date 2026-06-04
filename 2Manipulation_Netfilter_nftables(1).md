@@ -28,12 +28,15 @@ entre zones est oblige de passer par le pare-feu. Le WAN donne l'acces Internet.
 
 VMs (4) :
 - Firewall (routeur / pare-feu) : Debian 13 (netinst), 3 cartes
-    Carte 1 = Reseau NAT ou Pont (WAN)        -> enp0s3
+    Carte 1 = RESEAU NAT ou Pont (WAN) et pas NAT *      -> enp0s3
     Carte 2 = Reseau interne "lan"            -> enp0s8
     Carte 3 = Reseau interne "dmz"            -> enp0s9
 - Serveur DMZ (Web HTTP + SSH) : Debian 13, 1 carte, reseau interne "dmz" -> enp0s3
 - Client LAN (poste interne de confiance) : Debian 13, 1 carte, reseau interne "lan"
-- Client externe (utilisateur Internet) : 1 carte, Reseau NAT ou Pont
+- Client externe (utilisateur Internet) : 1 carte, RESEAU NAT ou Pont et pas NAT *
+
+*Pour le RESEAU NAT il faut dabord le creer sur Virtual box dans Fichier -> outis -> Reseau -> NAT Networks 
+Et dans IPv4 Prefix mettre la plage d'adresse du WAN (ex ici pour ce labo mettre la plage d'adresse -> 10.1.31.0/24
 
 Activer le routage sur le firewall (obligatoire, sinon rien ne traverse) :
 
